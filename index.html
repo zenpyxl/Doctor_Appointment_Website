@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}Doctor Appointment System{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row align-items-center">
+        
+        <!-- LEFT SIDE: Title and Buttons -->
+        <div class="col-md-6">
+            <h1 class="mb-4">Doctor Appointment System</h1>
+
+            {% if session.get("role") == "patient" %}
+                <a href="/book" class="btn btn-primary m-2">Book Appointment</a>
+                <a href="/my_appointments" class="btn btn-secondary m-2">My Appointments</a>
+            {% elif session.get("role") == "doctor" %}
+                <a href="/doctor_dashboard" class="btn btn-info m-2">Go to Doctor Dashboard</a>
+            {% endif %}
+
+            {% if session.get("user") %}
+                <form method="post" action="/logout" style="display:inline;">
+                    <button type="submit" class="btn btn-outline-danger m-2">Logout</button>
+                </form>
+            {% else %}
+                <a href="/login" class="btn btn-outline-dark m-2">Login</a>
+            {% endif %}
+        </div>
+
+        <!-- RIGHT SIDE: Image -->
+        <div class="col-md-6 text-center">
+            <img src="{{ url_for('static', filename='doctors.jpg') }}" alt="Doctors" class="img-fluid rounded shadow" style="max-height: 400px;">
+        </div>
+    </div>
+</div>
+{% endblock %}
+

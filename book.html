@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Book Appointment{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Book an Appointment</h2>
+
+{% if session.get("role") != "patient" %}
+    <div class="alert alert-warning">
+        Only logged-in patients can book appointments. <a href="/login">Login here</a>
+    </div>
+{% else %}
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Select Doctor:</label>
+            <select name="doctor_id" class="form-select" required>
+                {% for id, doc in doctors.items() %}
+                    <option value="{{ id }}">{{ doc.name }} ({{ doc.specialization }})</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Select Time Slot:</label>
+            <select name="time" class="form-select" required>
+                <option value="10:00 AM">10:00 AM</option>
+                <option value="10:30 AM">10:30 AM</option>
+                <option value="11:00 AM">11:00 AM</option>
+                <option value="11:30 AM">11:30 AM</option>
+                <option value="12:00 PM">12:00 PM</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Book</button>
+    </form>
+
+    {% if msg %}
+        <div class="alert alert-info mt-4">{{ msg }}</div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+

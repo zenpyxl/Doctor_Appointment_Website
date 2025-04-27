@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2>Admin Dashboard</h2>
+
+<h4 class="mt-4">All Doctors</h4>
+<ul class="list-group">
+    {% for doc in doctors %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ doc.name }} ({{ doc.specialization }})
+            <form action="{{ url_for('delete_doctor', doctor_id=doc.id) }}" method="post" style="margin: 0;">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+    {% else %}
+        <li class="list-group-item text-muted">No doctors found.</li>
+    {% endfor %}
+</ul>
+
+
+<h4 class="mt-4">All Patients</h4>
+<ul class="list-group">
+    {% for patient in patients %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ patient.name }} (ID: {{ patient.id }})
+            <form action="{{ url_for('delete_patient', patient_id=patient.id) }}" method="post" style="margin: 0;">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+    {% else %}
+        <li class="list-group-item text-muted">No patients found.</li>
+    {% endfor %}
+</ul>
+
+
+<h4 class="mt-4">All Appointments</h4>
+<ul class="list-group">
+    {% for appt in appointments %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ appt.patient.name }} → {{ appt.doctor.name }} at {{ appt.time }}
+            <form action="{{ url_for('delete_appointment_admin', appointment_id=appt.id) }}" method="post" style="margin: 0;">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+    {% else %}
+        <li class="list-group-item text-muted">No appointments found.</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
